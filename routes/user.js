@@ -23,7 +23,8 @@ router.get('/id', function(req, res, next) {
 
         // Insert user ID and return back generated ObjectId
         var userId = 0;
-        db.collection('userstats').insertOne({
+        var newdb = db.db('pacman')
+	newdb.collection('userstats').insertOne({
             date: Date()
         }, {
            w: 'majority',
@@ -61,7 +62,8 @@ router.post('/stats', urlencodedParser, function(req, res, next) {
         }
 
         // Update live user stats
-        db.collection('userstats').updateOne({
+        var newdb = db.db('pacman')
+	newdb.collection('userstats').updateOne({
                 _id: new ObjectId(req.body.userId),
             }, { $set: {
                     cloud: req.body.cloud,
@@ -111,7 +113,8 @@ router.get('/stats', function(req, res, next) {
 
         // Find all elements where the score field exists to avoid
         // undefined values
-        var col = db.collection('userstats');
+        var newdb = db.db('pacman')
+	var col = newdb.collection('userstats');
         col.find({ score: {$exists: true}}).sort([['_id', 1]]).toArray(function(err, docs) {
             var result = [];
             if (err) {
