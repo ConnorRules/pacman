@@ -57,7 +57,7 @@ router.post('/', urlencodedParser, function(req, res, next) {
 	//var db = client.db('mongodb');
         // Insert high score with extra user data
         var newdb = db.db('pacman')
-	db.collection('highscore').insertOne({
+	newdb.collection('highscore').insertOne({
                 name: req.body.name,
                 cloud: req.body.cloud,
                 zone: req.body.zone,
