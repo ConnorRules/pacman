@@ -48,11 +48,12 @@ router.post('/', urlencodedParser, function(req, res, next) {
     var userScore = parseInt(req.body.score, 10),
         userLevel = parseInt(req.body.level, 10);
 
-    Database.getDb(req.app, function(err, db) {
+    Database.getDb(req.app, function(err, client) {
         if (err) {
             return next(err);
         }
-
+	
+	var db = client.db('mongodb');
         // Insert high score with extra user data
         db.collection('highscore').insertOne({
                 name: req.body.name,
